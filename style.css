@@ -1,0 +1,24 @@
+.letter-counter {
+    position: absolute;
+    bottom: 5px;
+    right: 10px;
+}
+
+.textarea.pre-wrap {
+    white-space: pre-wrap;
+    height: unset;
+    max-height: unset;
+}
+
+.copy-button {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    opacity: 0;
+    transition: opacity 0.15s ease-in-out;
+}
+
+.control:hover .copy-button,
+.control:focus .copy-button {
+    opacity: 1;
+}

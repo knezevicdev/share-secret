@@ -1,0 +1,17 @@
+{
+    "name": "knezevicdev/share-secret",
+    "description": "Share Secret App",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Nikola Knežević",
+            "email": "knezevicdev@gmail.com"
+        }
+    ],
+    "require": {
+        "ramsey/uuid": "^4.1",
+        "vlucas/phpdotenv": "^5.3",
+        "nesbot/carbon": "^2.45",
+        "defuse/php-encryption": "^2.2"
+    }
+}
