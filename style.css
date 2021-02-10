@@ -22,3 +22,9 @@
 .control:focus .copy-button {
     opacity: 1;
 }
+
+@media (max-width: 768px) {
+    .copy-button {
+        opacity: 1;
+    }
+}
