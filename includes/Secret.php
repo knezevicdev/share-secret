@@ -38,15 +38,15 @@ class Secret {
     }
 
     public function viewUrl() {
-        return "{$this->websiteUrl()}/secret?secret={$this->id}";
+        return "{$this->websiteUrl()}/secret/?secret={$this->id}";
     }
 
     public function deleteUrl() {
-        return "{$this->websiteUrl()}/delete?secret={$this->id}";
+        return "{$this->websiteUrl()}/delete/?secret={$this->id}";
     }
 
     public function privateUrl() {
-        return "{$this->websiteUrl()}/private?secret={$this->id}";
+        return "{$this->websiteUrl()}/private/?secret={$this->id}";
     }
 
     private static function websiteUrl() {

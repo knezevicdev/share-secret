@@ -8,7 +8,6 @@ $dotenv->load();
 
 use Ramsey\Uuid\Uuid;
 use Defuse\Crypto\Crypto;
-use Defuse\Crypto\Key;
 
 class DB {
     private $dbServer;
@@ -41,10 +40,11 @@ class DB {
     }
 
     function createSecret ($content, $password = "") {
-        $sql = "INSERT INTO secrets (id, content, passphrase) VALUES (UUID_TO_BIN(:id), :content, :passphrase)";
+        $sql = "INSERT INTO secrets (id, content, passphrase) VALUES (:id, :content, :passphrase)";
 
         if($stmt = $this->pdo->prepare($sql)) {
-            $param_uuid = Uuid::uuid4();
+            $uuid = Uuid::uuid4();
+            $param_uuid = $uuid->getBytes();
             $param_content = trim($content);
             $param_password = NULL;
 
@@ -58,7 +58,7 @@ class DB {
             $stmt->bindParam(":passphrase", $param_password);
 
             if ($stmt->execute()) {
-                return $param_uuid;
+                return $uuid->toString();
             } else {
                 return false;
             }
@@ -68,17 +68,18 @@ class DB {
     }
 
     function getSecret ($id) {
-        $sql = "SELECT *, BIN_TO_UUID(id) as id FROM secrets WHERE id = UUID_TO_BIN(:id)";
+        $sql = "SELECT * FROM secrets WHERE id = :id";
 
         try {
             $uuid = Uuid::fromString($id);
-            $param_id = $uuid->toString();
+            $param_id = $uuid->getBytes();
 
             if($stmt = $this->pdo->prepare($sql)) {
                 $stmt->bindParam(":id", $param_id);
 
                 if ($stmt->execute()) {
                     if ($data =  $stmt->fetch()) {
+                        $data['id'] = Uuid::fromBytes($data['id'])->toString();
                         return new Secret($data);
                     }
                 }
@@ -91,11 +92,11 @@ class DB {
     }
 
     function deleteSecret ($id) {
-        $sql = "DELETE FROM secrets WHERE id = UUID_TO_BIN(:id)";
+        $sql = "DELETE FROM secrets WHERE id = :id";
 
         try {
             $uuid = Uuid::fromString($id);
-            $param_id = $uuid->toString();
+            $param_id = $uuid->getBytes();
 
             if($stmt = $this->pdo->prepare($sql)) {
                 $stmt->bindParam(":id", $param_id);
